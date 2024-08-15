@@ -8,7 +8,7 @@ spec:
   selector:
     app: frontend
   ports:
-    - port: 5000
+    - port: 8080
       protocol: TCP
       targetPort: 8080
   type: NodePort

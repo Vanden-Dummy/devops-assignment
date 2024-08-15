@@ -8,7 +8,7 @@ spec:
   selector:
     app: backend
   ports:
-    - port: 5000
+    - port: 9000
       protocol: TCP
-      targetPort: 5000
+      targetPort: 9000
   type: ClusterIP
