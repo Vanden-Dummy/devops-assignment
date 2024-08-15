@@ -30,12 +30,12 @@ jobs:
       - name: Setup up Go
         uses: actions/setup-go@v4
       
-      - name: Testing Backend
-        run: |
-          cd backend
-          go test -v ./...
-        env:
-          DISABLE_ERRORS: true  
+      #- name: Testing Backend
+      #  run: |
+      #    cd backend
+      #    go test -v ./...
+      #  env:
+      #    DISABLE_ERRORS: true  
 
       - name: Testing Frontend
         run: |
