@@ -18,7 +18,7 @@ jobs:
       - name: Testing Backend
         run: |
           cd backend
-          go test -v
+          go test -v ./...
       
       - name: Build Frontend Application
         run: go frontend/build
@@ -28,5 +28,5 @@ jobs:
       - name: Testing Frontend
         run: |
           cd frontend
-          go test -v
+          go test -v ./...
         
