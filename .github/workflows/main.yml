@@ -11,11 +11,22 @@ jobs:
         uses: actions/setup-go@v4
 
       - name: Build Backend Application
-        run: go backend/build
+        run: |
+          cd backend
+          go backend
+
       - name: Testing Backend
-        run: go backend/test -v
+        run: |
+          cd backend
+          go test -v
+      
       - name: Build Frontend Application
         run: go frontend/build
+          cd frontend
+          go build
+
       - name: Testing Frontend
-        run: go frontend/test -v
+        run: |
+          cd frontend
+          go test -v
         
