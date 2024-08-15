@@ -16,7 +16,7 @@ jobs:
           go build
       
       - name: Build Frontend Application
-        run: go frontend/build
+        run: |
           cd frontend
           go build
 
