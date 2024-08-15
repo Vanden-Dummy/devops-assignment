@@ -1,5 +1,9 @@
 name: Pipeline
 on: push
+env:
+  docker_username: vanden-dummy
+  docker_passwork: ${{ secrets.GITHUB_TOKEN }}
+  GIT_COMMIT: ${{ github.sha }}
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -19,6 +23,12 @@ jobs:
         run: |
           cd frontend
           go build
+      
+      - name: Upload code
+        uses: actions/upload-artifacts@v4
+        with:
+          name: code
+          path: .
 
   Testing:
     runs-on: ubuntu-latest
@@ -29,18 +39,54 @@ jobs:
 
       - name: Setup up Go
         uses: actions/setup-go@v4
-      
-      #- name: Testing Backend
-      #  run: |
-      #    cd backend
-      #    go test -v ./...
-      #  env:
-      #    DISABLE_ERRORS: true  
 
       - name: Testing Frontend
         run: |
           cd frontend
           go test -v ./...
-        env:
-          DISABLE_ERRORS: true
+#        env:
+#         DISABLE_ERRORS: true
+  Docker-Backend:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    permissions:
+      packages: write
+    steps:
+      - name: Download Code
+        uses: actions/download-artifacts@v4
+        with:
+          name: code
+          path: .
+      - name: Login to Github Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        
+      - name: Build Backend Docker
+        run: |
+          cd backend
+          docker build -t ghcr.io/${{ github.repository }}/backend:latest -f Dockerfile .
+
+      - name: Push Backend Image
+        run: docker push ghcr.io/${{ github.repository }}/backend:latest
+    
+  Docker-Frontend:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    permissions:
+      packages: write
+    steps:
+      - name: Download Code
+        uses: actions/download-artifacts@v4
+        with:
+          name: code
+          path: .
+      - name: Login to Github Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Frontend Docker
+        run: |
+          cd frontend
+          docker build -t ghcr.io/${{ github.repository }}/frontend:latest -f Dockerfile .
+      
+      - name: Push Frontend Image
+        run: docker push ghcr.io/${{ github.repository }}/frontend:latest
         
