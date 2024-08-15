@@ -6,12 +6,16 @@ jobs:
     steps:
       - name: Clone Repo down
         uses: actions/checkout@v4
+
+      - name: Setup go
+        uses: actions/setup-go@v4
+
       - name: Build Backend Application
         run: go backend/build
       - name: Testing Backend
-        run: go backend/test
+        run: go backend/test -v
       - name: Build Frontend Application
         run: go frontend/build
       - name: Testing Frontend
-        run: go frontend/test
+        run: go frontend/test -v
         
