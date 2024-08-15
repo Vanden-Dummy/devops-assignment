@@ -1,1 +1,16 @@
-name:
+name: Pipeline
+on: push
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo down
+        run: actions/checkout@v4
+      - name: Build Backend Application
+        run: go backend/build
+      - name: Testing Backend
+        run: go backend/test
+      - name: Build Frontend Application
+        run: go frontend/build
+      - name: Testing Frontend
+        run: go frontend/test
