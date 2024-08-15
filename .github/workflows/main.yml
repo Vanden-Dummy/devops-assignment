@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repo down
-        run: actions/checkout@v4
+        uses: actions/checkout@v4
       - name: Build Backend Application
         run: go backend/build
       - name: Testing Backend
