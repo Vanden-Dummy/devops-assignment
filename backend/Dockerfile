@@ -6,6 +6,5 @@ RUN go build
 
 FROM golang:alpine
 WORKDIR /app
-EXPOSE 8080
 COPY --from=builder /app /app
 ENTRYPOINT ["go","run","backend"]

@@ -1,0 +1,13 @@
+services:
+
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    image: go-frontend
+    ports:
+    - "8080:8080"
+
+  backend:
+    container_name: backend
+    build: ./backend
+    image: go-backend
