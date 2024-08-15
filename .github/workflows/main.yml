@@ -13,7 +13,7 @@ jobs:
       - name: Build Backend Application
         run: |
           cd backend
-          go backend
+          go build
 
       - name: Testing Backend
         run: |
