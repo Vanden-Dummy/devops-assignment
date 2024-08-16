@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echoing Secret
-        run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
+        run: ls -a
+        # run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
       - name: Kubectl
         run: kubectl --kubeconfig kubeconfig apply -f ./deployment/
