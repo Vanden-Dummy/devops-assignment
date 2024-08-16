@@ -14,7 +14,9 @@ jobs:
       - name: Echoing Secret
         run: |
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
-          ls -a
+          ls -a¨
+          echo "Node IP: $(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}')"
+          echo "NodePort: $(kubectl get service my-service -o jsonpath='{.spec.ports[0].nodePort}')"
       - name: Kubectl
         run: kubectl --kubeconfig kubeconfig apply -f ./deployment/
   
