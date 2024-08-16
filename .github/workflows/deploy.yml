@@ -26,7 +26,11 @@ jobs:
         uses: azure/setup-kubectl@v3
         with:
           version: 'latest'
-          
+      
+      - name: Set Up Kubeconfig for Test Job
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+
       - name: Get Node External IP
         id: get_node_ip
         run: |
