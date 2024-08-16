@@ -12,4 +12,4 @@ jobs:
       - name: Echoing Secret
         run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
       - name: Kubectl
-        run: kubectl --kubeconfig kubeconfig apply -f deployment/
+        run: kubectl --kubeconfig kubeconfig apply -f ./deployment/
