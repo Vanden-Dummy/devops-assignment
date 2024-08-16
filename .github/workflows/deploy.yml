@@ -15,7 +15,6 @@ jobs:
         run: |
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
           ls -a
-          echo "Node IP: $(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}') NodePort: $(kubectl get service <your-service-name> -o jsonpath='{.spec.ports[0].nodePort}') Service URL: http://$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}'):$(kubectl get service <your-service-name> -o jsonpath='{.spec.ports[0].nodePort}')" > service_info.txt
       - name: Kubectl
         run: kubectl --kubeconfig kubeconfig apply -f ./deployment/
   
@@ -23,28 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [Deployment]
     steps:
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'latest'
-      
-      - name: Set Up Kubeconfig for Test Job
+      - name: Get Service Info
         run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
-
-      - name: Get Node External IP
-        id: get_node_ip
-        run: |
-          NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}')
-          echo "NODE_IP=$NODE_IP" >> $GITHUB_ENV
-
-      - name: Get NodePort
-        id: get_nodeport
-        run: |
-          NODE_PORT=$(kubectl get service my-service -o jsonpath='{.spec.ports[0].nodePort}')
-          echo "NODE_PORT=$NODE_PORT" >> $GITHUB_ENV
+          chmod +x ./get_service_info.sh
+          ./get_service_info.sh
 
       - name: Testing
         run: |
           sleep 30
-          wget http://${{ env.NODE_IP }}:${{ env.NODE_PORT }}/
+          wget http://$NODE_IP:NODE_PORT/
