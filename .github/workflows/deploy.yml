@@ -1,0 +1,15 @@
+name: Deployment
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'main'
+jobs:
+  Deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echoing Secret
+        run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
+      - name: Kubectl
+        run: kubectl --kubeconfig kubeconfig apply -f deployment/

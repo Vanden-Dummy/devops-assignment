@@ -89,4 +89,5 @@ jobs:
       
       - name: Push Frontend Image
         run: docker push ghcr.io/vanden-dummy/devops-assignment/frontend:latest
+
         
