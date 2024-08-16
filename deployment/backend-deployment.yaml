@@ -13,7 +13,7 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend-deployment
+      - name: backend-container
         image: ghcr.io/vanden-dummy/devops-assignment/backend:latest
         resources:
           requests:
@@ -23,7 +23,7 @@ spec:
             memory: "500Mi"
             cpu: "500m"
         env:
-        - name: REDIS_HOST
+        - name: REDIS_DNS
           value: redis-service
         - name: REDIS_PORT
           value: "6379"
