@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-        
+
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
@@ -42,4 +42,4 @@ jobs:
       - name: Testing
         run: |
           sleep 30
-          wget http://$NODE_IP:NODE_PORT/
+          wget http://$NODE_IP:$NODE_PORT/
