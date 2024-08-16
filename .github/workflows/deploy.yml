@@ -1,16 +1,17 @@
 name: Deployment
-on: push
-#  pull_request:
-#    types:
-#      - closed
-#    branches:
-#      - 'main'
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'main'
 jobs:
   Deployment:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+    
       - name: Echoing Secret
         run: |
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
@@ -34,6 +35,7 @@ jobs:
         run: |
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+
       - name: Get Service Info
         run: |
           chmod +x ./ports.sh
@@ -41,5 +43,5 @@ jobs:
 
       - name: Testing
         run: |
-          sleep 30
+          sleep 20
           wget http://$NODE_IP:$NODE_PORT/

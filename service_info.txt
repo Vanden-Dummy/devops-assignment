@@ -1,4 +1,0 @@
-Node IP: 16.16.217.251 NodePort: 32379 Service URL: http://16.16.217.251:
-
-
-echo "Node IP: $(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}') NodePort: $(kubectl get service <your-service-name> -o jsonpath='{.spec.ports[0].nodePort}') Service URL: http://$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}'):$(kubectl get service <your-service-name> -o jsonpath='{.spec.ports[0].nodePort}')" > service_info.txt
